@@ -2,6 +2,7 @@ import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Transfer;
 
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class RazorPayYash {
 
             List<Transfer> transfers = razorpayClient.payments.fetchAllTransfers(paymentId);
 
-            Transfer t1 = razorpayClient.transfers.fetch("trf_Qssa57Zn6kHRlY");
+            Transfer t1 = razorpayClient.transfers.fetch("trf_QcQoLeplpvTcXL");
 
             System.out.println(t1.toString());
 
@@ -41,6 +42,9 @@ public class RazorPayYash {
             System.out.println("Total Amount transfered " + totalAmount);
 
             System.out.println("Difference is "+ (Float.valueOf(payment.get("amount").toString()) / 100 - totalAmount) );
+
+
+            System.out.println(Instant.now().minusSeconds(86400));
         } catch (Exception e) {
             e.printStackTrace();
         }
