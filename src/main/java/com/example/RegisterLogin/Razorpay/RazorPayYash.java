@@ -11,12 +11,12 @@ public class RazorPayYash {
     public static void main(String args[]) {
         try {
 
-            RazorpayClient razorpayClient = new RazorpayClient("rzp_live_9V7qfX1xJMtx6a", "5FzAWpfxN2iKuZGHoZFMf3Rh");
+            RazorpayClient razorpayClient = new RazorpayClient();
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             // The payment ID for which you want to fetch transfer details
-            String paymentId = "pay_R0Sw9yuWBaCXu7";
+            String paymentId = "pay_QqDawowqliGeEZ";
 
 
             //TOTAL AMOUNT
@@ -27,10 +27,10 @@ public class RazorPayYash {
 
 
             List<Transfer> transfers = razorpayClient.payments.fetchAllTransfers(paymentId);
-
-            Transfer t1 = razorpayClient.transfers.fetch("trf_QcQoLeplpvTcXL");
-
-            System.out.println(t1.toString());
+//
+//            Transfer t1 = razorpayClient.transfers.fetch("trf_QM91jua8116f7i");
+//
+//            System.out.println(t1.toString());
 
             for (Transfer t: transfers) {
 
@@ -44,7 +44,7 @@ public class RazorPayYash {
             System.out.println("Difference is "+ (Float.valueOf(payment.get("amount").toString()) / 100 - totalAmount) );
 
 
-            System.out.println(Instant.now().minusSeconds(86400));
+//            System.out.println(Instant.now().minusSeconds(86400));
         } catch (Exception e) {
             e.printStackTrace();
         }
