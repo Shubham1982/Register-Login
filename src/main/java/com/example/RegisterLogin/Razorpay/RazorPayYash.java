@@ -1,3 +1,5 @@
+package com.example.RegisterLogin.Razorpay;
+
 import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Transfer;
@@ -11,12 +13,12 @@ public class RazorPayYash {
     public static void main(String args[]) {
         try {
 
-            RazorpayClient razorpayClient = new RazorpayClient();
+            RazorpayClient razorpayClient = new RazorpayClient("rzp_live_9V7qfX1xJMtx6a", "5FzAWpfxN2iKuZGHoZFMf3Rh");
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             // The payment ID for which you want to fetch transfer details
-            String paymentId = "pay_QqDawowqliGeEZ";
+            String paymentId = "pay_R7AbBVOjPkXIoS";
 
 
             //TOTAL AMOUNT
