@@ -3,7 +3,9 @@ package com.example.RegisterLogin.AutomatePaymentIDsAndAmount;
 import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Transfer;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -12,11 +14,12 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-public class RazorPayExcelChecker {
+
+public class CheckPaymentIDsBalance {
 
     public static void main(String[] args) {
-        String inputFilePath = "/home/lt-444/Balance Check/shubham payouts(payment_type_2).xlsx";  // input Excel
-        String outputFilePath = "/home/lt-444/Balance Check/Output_Neft_amount_diff_dec17.xlsx"; // output Excel
+        String inputFilePath = "/home/lt-444/Balance Check/payment_check.xlsx";  // input Excel
+        String outputFilePath = "/home/lt-444/Balance Check/output_payment_check.xlsx"; // output Excel
 
         try {
             // Razorpay client (provide your API key & secret here)
@@ -33,11 +36,7 @@ public class RazorPayExcelChecker {
 
             // Write header
             Row header = outputSheet.createRow(0);
-            header.createCell(0).setCellValue("App Order ID");
-            header.createCell(1).setCellValue("Payment ID");
-            header.createCell(2).setCellValue("Amount");
-            header.createCell(3).setCellValue("razorpay amount");
-            header.createCell(4).setCellValue("EnterpriseID");
+            header.createCell(0).setCellValue("Payment ID");
 
             int rowIndex = 1;
 
@@ -47,24 +46,20 @@ public class RazorPayExcelChecker {
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                String appOrderID = row.getCell(0).getStringCellValue();
-                String paymentId = row.getCell(1).getStringCellValue();
-                double sheetBalance = row.getCell(2).getNumericCellValue()/100;
-                int EnterpriseID = (int) row.getCell(3).getNumericCellValue();
+                String paymentId = row.getCell(0).getStringCellValue();
 
                 try {
                     // Fetch payment
                     Payment payment = razorpayClient.payments.fetch(paymentId);
 
-                    double refundedAmount = 0.0;
-
-                    if (payment.has("amount_refunded")) {
-                        refundedAmount = Double.parseDouble(payment.get("amount_refunded").toString()) / 100;
-                    }
-
                     // Calculate total transferred
                     double totalTransferred = 0.0;
                     List<Transfer> transfers = razorpayClient.payments.fetchAllTransfers(paymentId);
+                    double refundedAmount = 0.0;
+
+                    if (payment.has("amount_refunded")) {
+                        refundedAmount = Double.parseDouble(payment.get("amount_refunded").toString()) / 100;   
+                    }
 
                     for (Transfer t : transfers) {
                         if ("processed".equals(t.get("status"))) {
@@ -73,24 +68,16 @@ public class RazorPayExcelChecker {
                     }
 
                     // Razorpay remaining balance
-                    double razorpayBalance = (Double.parseDouble(payment.get("amount").toString()) / 100) - totalTransferred -refundedAmount;
+                    double razorpayBalance = (Double.parseDouble(payment.get("amount").toString()) / 100) - totalTransferred - refundedAmount;
 
                     // Decide final balance
-//                    double finalBalance;
-//                    if (razorpayBalance < sheetBalance) {
-//                        finalBalance = razorpayBalance;
-//                    } else {
-//                        finalBalance = sheetBalance;
-//                    }
 
                     // Write to output Excel
-                    System.out.println("Row read: "+ rowIndex);
+                    System.out.println("Row read: "+ rowIndex + "payment ID: "+paymentId+ "   balance: "+ razorpayBalance);
                     Row outputRow = outputSheet.createRow(rowIndex++);
-                    outputRow.createCell(0).setCellValue(appOrderID);
-                    outputRow.createCell(1).setCellValue(paymentId);
-                    outputRow.createCell(2).setCellValue(sheetBalance);
-                    outputRow.createCell(3).setCellValue(razorpayBalance);
-                    outputRow.createCell(4).setCellValue(EnterpriseID);
+                    outputRow.createCell(0).setCellValue(paymentId);
+                    outputRow.createCell(1).setCellValue(razorpayBalance);
+
 
                 } catch (Exception e) {
                     System.out.println("Error fetching data for PaymentID: " + paymentId);

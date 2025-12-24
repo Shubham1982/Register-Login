@@ -1,5 +1,4 @@
 package com.example.RegisterLogin.AutomatePaymentIDsAndAmount;
-
 import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Transfer;
@@ -11,12 +10,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
-public class RazorPayExcelChecker {
-
+public class PayoutCreation {
     public static void main(String[] args) {
         String inputFilePath = "/home/lt-444/Balance Check/shubham payouts(payment_type_2).xlsx";  // input Excel
-        String outputFilePath = "/home/lt-444/Balance Check/Output_Neft_amount_diff_dec17.xlsx"; // output Excel
+        String outputFilePath = "/home/lt-444/Balance Check/Output_Neft_PayoutSheet_dec17.xlsx"; // output Excel
 
         try {
             // Razorpay client (provide your API key & secret here)
@@ -36,8 +33,7 @@ public class RazorPayExcelChecker {
             header.createCell(0).setCellValue("App Order ID");
             header.createCell(1).setCellValue("Payment ID");
             header.createCell(2).setCellValue("Amount");
-            header.createCell(3).setCellValue("razorpay amount");
-            header.createCell(4).setCellValue("EnterpriseID");
+            header.createCell(3).setCellValue("EnterpriseID");
 
             int rowIndex = 1;
 
@@ -75,22 +71,20 @@ public class RazorPayExcelChecker {
                     // Razorpay remaining balance
                     double razorpayBalance = (Double.parseDouble(payment.get("amount").toString()) / 100) - totalTransferred -refundedAmount;
 
-                    // Decide final balance
-//                    double finalBalance;
-//                    if (razorpayBalance < sheetBalance) {
-//                        finalBalance = razorpayBalance;
-//                    } else {
-//                        finalBalance = sheetBalance;
-//                    }
+                    double finalBalance;
+                    if (razorpayBalance < sheetBalance) {
+                        finalBalance = razorpayBalance;
+                    } else {
+                        finalBalance = sheetBalance;
+                    }
 
                     // Write to output Excel
                     System.out.println("Row read: "+ rowIndex);
                     Row outputRow = outputSheet.createRow(rowIndex++);
                     outputRow.createCell(0).setCellValue(appOrderID);
                     outputRow.createCell(1).setCellValue(paymentId);
-                    outputRow.createCell(2).setCellValue(sheetBalance);
-                    outputRow.createCell(3).setCellValue(razorpayBalance);
-                    outputRow.createCell(4).setCellValue(EnterpriseID);
+                    outputRow.createCell(2).setCellValue(finalBalance*100);
+                    outputRow.createCell(3).setCellValue(EnterpriseID);
 
                 } catch (Exception e) {
                     System.out.println("Error fetching data for PaymentID: " + paymentId);
