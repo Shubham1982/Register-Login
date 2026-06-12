@@ -20,12 +20,12 @@ public class RazorPayYash {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-            // The payment ID for which you want to fetch transfer details
-            String paymentId = "pay_PzamS1ub4UcTTL";
+//             The payment ID for which you want to fetch transfer details
+            String paymentId = "pay_SdERVRRJYXKhtX";
 
-
-            //TOTAL AMOUNT
-
+//
+//            //TOTAL AMOUNT
+//
             float totalAmount = 0.0F;
             Payment payment = razorpayClient.payments.fetch(paymentId);
             double refundedAmount = 0.0;
@@ -38,10 +38,10 @@ public class RazorPayYash {
 
             List<Transfer> transfers = razorpayClient.payments.fetchAllTransfers(paymentId);
 
-//            Transfer t1 = razorpayClient.transfers.fetch("trf_RgnWZ6RZ2wif64");
-//
-//            System.out.println(t1.toString());
+            Transfer t1 = razorpayClient.transfers.fetch("trf_SXobTmun8v0wZ4");
 
+            System.out.println(t1.toString());
+//
             for (Transfer t: transfers) {
 
                 if(t.get("status").equals("processed")) {

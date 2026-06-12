@@ -18,7 +18,7 @@ import java.util.List;
 public class CheckPaymentIDsBalance {
 
     public static void main(String[] args) {
-        String inputFilePath = "/home/lt-444/Balance Check/payment_check.xlsx";  // input Excel
+        String inputFilePath = "/home/lt-444/Balance Check/Rupifi balance check";  // input Excel
         String outputFilePath = "/home/lt-444/Balance Check/output_payment_check.xlsx"; // output Excel
 
         try {
