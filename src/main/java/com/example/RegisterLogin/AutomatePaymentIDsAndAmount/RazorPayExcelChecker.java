@@ -15,8 +15,8 @@ import java.util.List;
 public class RazorPayExcelChecker {
 
     public static void main(String[] args) {
-        String inputFilePath = "/home/lt-444/Balance Check/shubham payouts(payment_type_2).xlsx";  // input Excel
-        String outputFilePath = "/home/lt-444/Balance Check/Output_Neft_amount_diff_dec17.xlsx"; // output Excel
+        String inputFilePath = "/Users/shubhamgore/Downloads/Balance Check/Rupifi balance check.xlsx";  // input Excel
+        String outputFilePath = "/Users/shubhamgore/Downloads/Balance Check/Output_rupifi_amount_diff_dec17.xlsx"; // output Excel
 
         try {
             // Razorpay client (provide your API key & secret here)

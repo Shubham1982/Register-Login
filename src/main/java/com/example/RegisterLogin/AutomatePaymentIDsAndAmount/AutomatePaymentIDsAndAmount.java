@@ -12,8 +12,8 @@ import java.util.Iterator;
 public class AutomatePaymentIDsAndAmount {
 
     public static void main(String[] args) {
-        String inputFilePath = "/home/lt-444/Output Files/TranferIds.xlsx";
-        String outputFilePath = "/home/lt-444/Output Files/OutputFile.xlsx";
+        String inputFilePath = "/Users/shubhamgore/Downloads/transfer IDs 1 Apr.xlsx";
+        String outputFilePath = "/Users/shubhamgore/Downloads/OutputFile.xlsx";
 
         try (
                 FileInputStream fis = new FileInputStream(inputFilePath);
